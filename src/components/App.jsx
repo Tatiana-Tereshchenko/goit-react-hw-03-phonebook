@@ -18,18 +18,19 @@ export class App extends Component {
   componentDidMount() {
     const savedContacts = localStorage.getItem('contacts');
     if (savedContacts) {
-      this.setState({ contacts: JSON.parse(savedContacts) });
+      const parsedContacts = JSON.parse(savedContacts);
+      this.setState({ contacts: parsedContacts });
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
     const { contacts } = this.state;
     if (prevState.contacts !== contacts) {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
+      const contactsJSON = JSON.stringify(contacts);
+      localStorage.setItem('contacts', contactsJSON);
     }
   }
 
-  
   handleAddContact = (newContact) => {
     const { contacts } = this.state;
     const isDuplicate = contacts.some(
@@ -50,13 +51,14 @@ export class App extends Component {
   };
 
   handleDeleteContact = (contactId) => {
-  this.setState((prevState) => ({
-    contacts: prevState.contacts.filter((contact) => contact.id !== contactId),
-  }));
+    this.setState((prevState) => ({
+      contacts: prevState.contacts.filter((contact) => contact.id !== contactId),
+    }));
   };
-  
+
   render() {
     const { contacts, filter } = this.state;
+    const contactsJSON = JSON.stringify(contacts); 
     return (
       <div className={css.container}>
         <h1 className={css.title}>Phonebook</h1>
@@ -69,3 +71,9 @@ export class App extends Component {
     );
   }
 }
+
+
+
+
+
+
